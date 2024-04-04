@@ -326,6 +326,64 @@ while message == 'connme':
     client_socket.connect(server_address)
     loopMessage(client_socket)
 ```
+Fungsi main() bertujuan untuk menginisialisasi koneksi dengan server. Pertama, pengguna diminta untuk memasukkan pesan dengan menggunakan fungsi input. Jika pesan yang dimasukkan sama dengan string 'connme', maka program akan membuat soket klien dengan socket.socket(), kemudian menghubungkannya dengan server menggunakan client_socket.connect().
 
+# 2. Fungsi LoopMessage()
+```python
+def loopMessage(client_socket):
+while True:
+    data = client_socket.recv(recv)
+    print(f'{data.decode()}')
+    message = input('Masukkan Pesan: ')
+    client_socket.sendall(message.encode())
+    if message == 'byebye':
+        client_socket.close()
+        break
+    elif message == 'ls':
+        ls = client_socket.recv(recv)
+        print(ls)
+    perintah = message.split()
+    if len(perintah) == 2 :
+        menu, file = perintah
+        if menu == 'download':
+            download(client_socket)
+        elif menu == 'upload':
+            upload(client_socket)
+        elif menu == 'size':
+            size(client_socket)
+        elif message == 'rm':
+            rm(client_socket)
+```
+Fungsi loopMessage() bertujuan untuk mengatur pesan antara klien dan server. klien menerima pesan dari server menggunakan client_socket.recv(), kemudian pesan tersebut dicetak menggunakan print(). Selanjutnya, klien diminta untuk memasukkan pesan menggunakan input('Masukkan Pesan: '). Pesan yang dimasukkan oleh klien dikirimkan kembali ke server menggunakan client_socket.sendall(). Jika pesan yang dimasukkan adalah 'byebye', koneksi klien ditutup menggunakan client_socket.close() dan loop dihentikan dengan break. Jika pesan adalah 'ls', klien menerima daftar file dari server menggunakan client_socket.recv(), kemudian dicetak menggunakan print() dan menu seterusnya Kemudian, pesan yang dimasukkan oleh klien dipisahkan menjadi dua bagian menggunakan message.split(), yaitu menu dan nama file. Jika panjang list hasil pemisahan adalah 2, artinya pesan mengandung perintah untuk mengelola file. Selanjutnya, klien melakukan operasi sesuai dengan perintah yang diterima.
 
+# 3. Fungsi Download()
+```python
+def download(client_socket):
+    pesan = client_socket.recv(recv)
+    print(pesan.decode())
+``` 
+Fungsi Download() menerima pesan dari server yang berisi file yang di download
 
+# 4. Fungsi upload()
+```python
+def upload(client_socket):
+    pesan = client_socket.recv(recv)
+    print(pesan.decode())
+``` 
+Fungsi upload() menerima pesan dari server yang berisi file yang di upload. Pesan tersebut kemudian di_decode dan di cetak menggunakan print()
+
+# 5. Fungsi Size()
+```python
+def size(client_socket):
+    pesan = client_socket.recv(recv)
+    print(pesan.decode())
+``` 
+Fungsi size() menerima pesan dari server yang berisi file diketahui ukurannya. Pesan tersebut kemudian di-decode dan dicetak menggunakan print()
+
+# 6. Fungsi ls()
+```python
+def rm(client_socket):
+    pesan = client_socket.recv(recv)
+    print(pesan.decode())
+``` 
+Fungsi ls() menerima pesan dari server yang berisikan file yang akan dihaous. Pesan tersebut kemudian di-decode dan dicetak menggunakan print()
